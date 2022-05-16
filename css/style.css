@@ -1,9 +1,18 @@
 body {
-    background-color: #000;
+    /* background-color: #000; */
+    background: center url(../img/bg.jpg);
     color: #999;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-h1, h2, h3 {
-    color: green;
+h1, h2, h3 {    
+    color: #ccc;
+    padding: 15px;
+    background-color: rgba(90,50,90, .7);
+}
+
+p {
+    text-align: justify;
+    padding: 10px;
+    background-color: rgba(50,50,50, .7);
 }
