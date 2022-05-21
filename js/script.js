@@ -63,7 +63,7 @@ function writeYourGenres(){
     }
 }
 
-writeYourGenres();
+// writeYourGenres();
 
 const showMyDB = () => personalMovieDB.privat ? console.log("===> privat is true") : console.log(personalMovieDB);
 showMyDB();
