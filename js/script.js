@@ -12,84 +12,82 @@ P.S. Здесь есть несколько вариантов решения з
 
 'use strict';
 
-const movieDB = {
-    movies: [
-        "Логан",
-        "Одержимость",
-        "Ла-ла лэнд",
-        "Скотт Пилигрим против...",
-        "Лига справедливости"
-    ]
-};
+document.addEventListener("DOMContentLoaded", () => {
 
-// ====== 030 ======
+    const movieDB = {
+        movies: [
+            "Логан",            
+            "Ла-ла лэнд",
+            "Скотт Пилигрим против...",
+            "Одержимость",
+            "Лига справедливости"
+        ]
+    };
+    
+    const formAdd = document.querySelector("form.add"),
+        formAddInput = formAdd.querySelector(".adding__input"),
+        favFilm = formAdd.querySelector("[type=checkbox]"),
+        advImg = document.querySelectorAll(".promo__adv img"),
+        poster = document.querySelector(".promo__bg"),
+        genre = poster.querySelector(".promo__genre"),
+        iUL = document.querySelector(".promo__interactive-list");
+    
+    const advRemove = (adv) => {
+        adv.forEach(item => item.remove());
+    };
+        
+    const addChanges = () => {
+        genre.textContent = "ДРАМА";            
+        poster.style.backgroundImage = "url('./img/bg.jpg')";
+    };
 
-const formAdd = document.querySelector(".add"),
-    formAddInput = document.querySelector(".adding__input"),
-    favFilm = formAdd.querySelector("input[type=checkbox]");
+    const sortList = (arr) => {
+        arr.sort();
+    };  
+    
 
-formAdd.lastElementChild.addEventListener("click", (e) => {
-    e.preventDefault();
-    let filmInput = formAddInput.value;
-
-    if (filmInput != "") {
-        if (filmInput.length > 21) {
-            const filmInputArr = filmInput.split("");
-            filmInputArr.splice(21, filmInput.length - 21, "...");
-            filmInput = filmInputArr.join("");
-        }
-        if (favFilm.checked) {
-            console.log("Добавляем любимый фильм");
-            favFilm.checked = false;
-        }
-        movieDB.movies.push(filmInput);
-        watchedFilmsListRender();
-        addDelEvent();
-        formAddInput.value = "";
-    } else {
-        alert("Поле пустое - введите название фильма");
-    }
-});
-
-
-
-
-const advImg = document.querySelectorAll(".promo__adv img"),
-    poster = document.querySelector(".promo__bg"),
-    genre = poster.querySelector(".promo__genre"),
-    iUL = document.querySelector(".promo__interactive-list");
-
-//==== 1 ====
-advImg.forEach(item => item.remove());
-
-//==== 2 ====
-genre.textContent = "ДРАМА";
-
-//==== 3 ====
-poster.style.backgroundImage = "url('./img/bg.jpg')";
-
-//==== 4,5 ====
-
-
-function watchedFilmsListRender() {
-    iUL.innerHTML = "";
-    movieDB.movies.sort().map((item, key) => {
-        iUL.innerHTML += `
-        <li class="promo__interactive-item">${++key}. ${item}
-            <div class="delete"></div>
-        </li>`;
-    });
-}
-
-function addDelEvent() {
-    const delBtns = document.querySelectorAll(".delete");
-    delBtns.forEach((btn, key) => {
-        btn.addEventListener("click", () => {
-            delete movieDB.movies[key];
-            watchedFilmsListRender();
-            addDelEvent();
+    const watchedFilmsListRender = (filmList, parentObj) => {
+        iUL.innerHTML = "";        
+        filmList.forEach((item, key) => {
+            parentObj.innerHTML += `
+            <li class="promo__interactive-item">${++key}. ${item}
+                <div class="delete"></div>
+            </li>`;            
         });
+        document.querySelectorAll(".delete").forEach((delBtn, numBtn) => {
+            delBtn.addEventListener("click", (e)=>{                
+                e.target.parentNode.remove();
+                movieDB.movies.splice(numBtn, 1);
+                watchedFilmsListRender(filmList, parentObj);        
+            });
+        });        
+    };
+
+    formAdd.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let filmInput = formAddInput.value;
+        if (filmInput) {
+            if (filmInput.length > 21) {    
+                filmInput = `${filmInput.substring(0, 22)}...`;
+            }
+            if (favFilm.checked) {
+                console.log("Добавляем любимый фильм");         
+            }
+            movieDB.movies.push(filmInput);
+            sortList(movieDB.movies);
+            watchedFilmsListRender(movieDB.movies, iUL);
+            // addDelEvent();            
+            //очистка формы
+            e.target.reset();
+        } else {
+            alert("Поле пустое - введите название фильма");
+        }
     });
-}
-watchedFilmsListRender();
-addDelEvent();
+    
+
+    advRemove(advImg);
+    addChanges();
+    sortList(movieDB.movies);
+    watchedFilmsListRender(movieDB.movies, iUL);    
+
+});
