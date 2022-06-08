@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             return num;
         }
-    }
+    };
 
     const setDeadlineToHTML = (selector, dateValue) => {
 
@@ -101,16 +101,24 @@ document.addEventListener("DOMContentLoaded", () => {
         closeBtn = document.querySelector("[data-close]"),
         modalWindow = document.querySelector(".modal");
     //1 var  
+
+    const openModal = () => {
+        // modalWindow.classList.toggle("show");
+        modalWindow.classList.add("show");
+        modalWindow.classList.remove("hide");
+        document.body.style.overflow = "hidden";
+        // clearTimeout(modalIntervalId);
+    };
+
     const closeModal = () => {
-        modalWindow.classList.toggle("show");
+        // modalWindow.classList.toggle("show");
+        modalWindow.classList.add("hide");
+        modalWindow.classList.remove("show");
         document.body.style.overflow = "";
     };
 
     modalBtns.forEach(item => {
-        item.addEventListener("click", () => {
-            modalWindow.classList.toggle("show");
-            document.body.style.overflow = "hidden";
-        });
+        item.addEventListener("click", openModal);
     });
 
     closeBtn.addEventListener("click", closeModal);
@@ -120,12 +128,25 @@ document.addEventListener("DOMContentLoaded", () => {
             closeModal();
         }
     });
-
+    
+    //close modal by pressing "Escape"
     document.addEventListener("keydown", (e) => {
         if (e.code === "Escape" && modalWindow.classList.contains('show')) {
             closeModal();
         }
-    }); 
+    });
+    
+    //show modal after 3s 
+    const modalIntervalId = setTimeout(openModal, 3000);
+    
+    //show modal at the end of page
+    const modalScrollOpen = () => {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight){
+            openModal();
+            window.removeEventListener('scroll', modalScrollOpen);
+        }
+    };
 
+    window.addEventListener('scroll', modalScrollOpen);
 
 });
