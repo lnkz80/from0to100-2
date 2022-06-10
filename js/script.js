@@ -155,53 +155,53 @@ document.addEventListener("DOMContentLoaded", () => {
             header: 'Меню "Фитнес"',
             text: 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
             price: 229,
-            img: "img/tabs/vegy.jpg"
+            img: "img/tabs/vegy.jpg",
+            alt: "vegy"
         },
         {
             header: 'Меню “Премиум”',
             text: 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
             price: 550,
-            img: "img/tabs/elite.jpg"
+            img: "img/tabs/elite.jpg",
+            alt: "elite"
         },
         {
             header: 'Меню "Постное"',
             text: 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
             price: 430,
-            img: "img/tabs/post.jpg"
+            img: "img/tabs/post.jpg",
+            alt: "post"
         }
     ];
 
-
-
     class Card {
-        constructor(db, parentDiv) {
-            this.db = db;
-            this.parentDiv = parentDiv;
-            this.html = "";
-            this.parentDiv = document.querySelector(this.parentDiv);
+        constructor(img, alt, header, text, price, parentDiv) {
+            this.img = img;
+            this.alt = alt;
+            this.header = header;
+            this.text = text;
+            this.price = price;
+            this.parentDiv = document.querySelector(parentDiv);
         }
 
-        makeHTML() {
-            this.db.forEach(item => {
-                this.html += `
+        render() {
+            this.parentDiv.innerHTML += `
                     <div class="menu__item">
-                        <img src=${item.img} alt="vegy">
-                        <h3 class="menu__item-subtitle">${item.header}</h3>
-                        <div class="menu__item-descr">${item.text}</div>
+                        <img src=${this.img} alt="${this.alt}">
+                        <h3 class="menu__item-subtitle">${this.header}</h3>
+                        <div class="menu__item-descr">${this.text}</div>
                         <div class="menu__item-divider"></div>
                         <div class="menu__item-price">
                             <div class="menu__item-cost">Цена:</div>
-                            <div class="menu__item-total"><span>${item.price}</span> грн/день</div>
+                            <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
                         </div>
                     </div>
                 `;
-            });
-            this.parentDiv.innerHTML = this.html;
         }
     }
 
-    const div = new Card(DB, ".menu .container");
-
-    div.makeHTML();
+    DB.forEach(item => {
+        new Card(item.img, item.alt, item.header, item.text, item.price, ".menu .container").render();
+    });
 
 });
