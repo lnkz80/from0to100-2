@@ -80,48 +80,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
       form.insertAdjacentElement("afterend", statusMessage);
 
-      const req = new XMLHttpRequest();
-      req.open("POST", "server.php");
-
-      // при використанні XMLHttpRequest та FormData заголовок не використовується. Він встановлюється автоматично
-      // req.setRequestHeader('Content-type', 'multipart/form-data');
-
-      //for JSON
-      req.setRequestHeader("Content-type", "application/json");
-
       const formData = new FormData(form);
 
-      //for JSON
       const obj = {};
-      //for JSON end
-
       formData.forEach((value, key) => {
         obj[key] = value;
       });
 
-      const json = JSON.stringify(obj);
-      //for JSON end
-
-      //for FormData
-      // req.send(formData);
-
-      //for JSON
-      req.send(json);
-      //for JSON end
-
-      req.addEventListener("load", () => {
-        if (req.status === 200) {
-          console.log(req.response);
+      //USE FETCH
+      fetch("server.php", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(obj),
+        })
+        .then(data => data.text())
+        .then(req => {
+          console.log(req);
           showMessage(mess.success);
-
-          form.reset();
-          setTimeout(() => {
-            statusMessage.remove();
-          }, 2000);
-        } else {
+          statusMessage.remove();
+        }).catch(() => {
           showMessage(mess.failure);
-        }
-      });
+        }).finally(() => {
+          form.reset();
+        });
     });
   }
 
