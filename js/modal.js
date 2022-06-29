@@ -65,9 +65,21 @@ document.addEventListener("DOMContentLoaded", () => {
     failure: "Щось пішло не так :(",
   };
 
-  forms.forEach((item) => postData(item));
+  forms.forEach((item) => bindPostData(item));
 
-  function postData(form) {
+  const postData = async (url, data) => {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    });
+
+    return await res.json();
+  };
+
+  function bindPostData(form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -82,27 +94,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const formData = new FormData(form);
 
-      const obj = {};
-      formData.forEach((value, key) => {
-        obj[key] = value;
-      });
+      //put form values to object  - 1 variant
+      // const obj = {};
+      // formData.forEach((value, key) => {
+      //   obj[key] = value;
+      // });
+
+      //convert formData into JSON - 2nd BEST variant
+      const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
       //USE FETCH
-      fetch("server.php", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(obj),
-        })
-        .then(data => data.text())
-        .then(req => {
+      // postData("http://localhost:3000/requests", JSON.stringify(obj))
+      postData("http://localhost:3000/requests", json)
+        .then((req) => {
           console.log(req);
           showMessage(mess.success);
           statusMessage.remove();
-        }).catch(() => {
+        })
+        .catch(() => {
           showMessage(mess.failure);
-        }).finally(() => {
+        })
+        .finally(() => {
           form.reset();
         });
     });

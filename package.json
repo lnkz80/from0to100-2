@@ -1,0 +1,22 @@
+{
+  "name": "foodie",
+  "version": "1.0.0",
+  "description": "foodie site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lnkz80/from0to100-2.git"
+  },
+  "author": "lnkz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lnkz80/from0to100-2/issues"
+  },
+  "homepage": "https://github.com/lnkz80/from0to100-2#readme",
+  "devDependencies": {
+    "json-server": "^0.17.0"
+  }
+}
