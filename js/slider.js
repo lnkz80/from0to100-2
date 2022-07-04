@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
     width = window.getComputedStyle(sliderWrapper).width,
     sliderField = document.querySelector(".offer__slider-inner");
 
+  total.textContent = slides.length < 10 ? `0${slides.length}` : slides.length;
+  current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
+
   sliderField.style.width = 100 * slides.length + "%";
   sliderField.style.display = "flex";
   sliderField.style.transition = "0.5s all";
@@ -30,6 +33,33 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       offset -= +width.slice(0, width.length - 2);
     }
+
+    if (slideIndex == slides.length) {
+      slideIndex = 1;
+    } else {
+      slideIndex++;
+    }
+    console.log(slideIndex);
+    current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
+
+    sliderField.style.transform = `translateX(${offset}px)`;
+  });
+
+  prev.addEventListener("click", () => {
+    if (offset == 0) {
+      offset = -width.slice(0, width.length - 2) * (slides.length - 1);
+    } else {
+      offset += +width.slice(0, width.length - 2);
+    }
+
+    if (slideIndex == 1) {
+      slideIndex = slides.length;
+    } else {
+      slideIndex--;
+    }
+
+    current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
+
     sliderField.style.transform = `translateX(${offset}px)`;
   });
 });
