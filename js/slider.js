@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     console.log(slideIndex);
     current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
-
+    makeActiveDot(slideIndex);
     sliderField.style.transform = `translateX(${offset}px)`;
   });
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       slideIndex--;
     }
-
+    makeActiveDot(slideIndex);
     current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
 
     sliderField.style.transform = `translateX(${offset}px)`;
@@ -71,37 +71,30 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i = 1; i < slides.length + 1; i++) {
       const span = document.createElement("span");
       span.textContent = "•";
-
-      act == i ? span.classList.add("active") : span.classList.remove("active");
-
+      if (act == i) {
+        span.classList.add("active");
+      } else {
+        span.classList.remove("active");
+      }
       dotsWrapper.append(span);
     }
   };
   //init
   renderDots();
-  //console.log();
-  console.log(
-    `ZERO offset: ${offset};  index: ${slideIndex}; width: ${width.slice(
-      0,
-      width.length - 2
-    )}`
-  );
+
+  function makeActiveDot(dotIdx) {
+    dots.forEach((dot) => dot.classList.remove("active"));
+    dots[dotIdx - 1].classList.add("active");
+  }
   //add eventListeners
   const dots = document.querySelectorAll(".offer__slider-dots span");
   dots.forEach((dot, idx) => {
     dot.addEventListener("click", function () {
-      dots.forEach((dot) => dot.classList.remove("active"));
-      this.classList.add("active");
-      console.log(idx + 1);
-      if (idx + 1 > slideIndex) {
-        offset -= width.slice(0, width.length - 2) * (idx + 1 - slideIndex);
-        slideIndex++;
-      } else {
-        offset += width.slice(0, width.length - 2) * (slideIndex - idx + 1);
-        slideIndex--;
-      }
-
-      console.log(`offset: ${offset};  index: ${slideIndex}`);
+      const clickedSlide = idx + 1;
+      makeActiveDot(clickedSlide);
+      offset += width.slice(0, width.length - 2) * (slideIndex - clickedSlide);
+      slideIndex = clickedSlide;
+      current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
       sliderField.style.transform = `translateX(${offset}px)`;
     });
   });
