@@ -28,10 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // console.log(+width.slice(0, width.length - 2) * (slides.length - 1));
 
   next.addEventListener("click", () => {
-    if (offset == -width.slice(0, width.length - 2) * (slides.length - 1)) {
+    if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
       offset = 0;
     } else {
-      offset -= +width.slice(0, width.length - 2);
+      offset += +width.slice(0, width.length - 2);
     }
 
     if (slideIndex == slides.length) {
@@ -39,18 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       slideIndex++;
     }
-    current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
     // makeActiveDot(slideIndex);
     dots.forEach((dot) => (dot.style.opacity = ".5"));
     dots[slideIndex - 1].style.opacity = "1";
-    sliderField.style.transform = `translateX(${offset}px)`;
+    current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
+    sliderField.style.transform = `translateX(-${offset}px)`;
   });
 
   prev.addEventListener("click", () => {
     if (offset == 0) {
-      offset = -width.slice(0, width.length - 2) * (slides.length - 1);
+      offset = +width.slice(0, width.length - 2) * (slides.length - 1);
     } else {
-      offset += +width.slice(0, width.length - 2);
+      offset -= +width.slice(0, width.length - 2);
     }
 
     if (slideIndex == 1) {
@@ -62,13 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
     dots.forEach((dot) => (dot.style.opacity = ".5"));
     dots[slideIndex - 1].style.opacity = "1";
     current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
-
-    sliderField.style.transform = `translateX(${offset}px)`;
+    sliderField.style.transform = `translateX(-${offset}px)`;
   });
 
   //SLIDER DOTS
-  const slider = document.querySelector(".offer__slider"),
-    dotsWrapper = document.querySelector(".offer__slider-dots");
+  const slider = document.querySelector(".offer__slider");
+
+  //VER.1
+  // dotsWrapper = document.querySelector(".offer__slider-dots");
 
   //VER.2
   const indicators = document.createElement("ol");
@@ -95,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
       sliderField.style.transform = `translateX(-${offset}px)`;
       dots.forEach((dot) => (dot.style.opacity = ".5"));
       dots[slideIndex - 1].style.opacity = "1";
+      current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
     });
   });
   //VER.1

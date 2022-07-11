@@ -1,8 +1,9 @@
-.offer__slider {
+ .offer__slider {
     position: relative;
 }
+/* VAR.1 */
 
-.offer__slider-dots {
+/* .offer__slider-dots {
     position: absolute;
     bottom: 20px;    
     width: 100%;
@@ -26,10 +27,12 @@
 }
 
 .offer__slider-dots span.active {
-    /* color: #f2ff04; */
+    color: #f2ff04; 
     cursor:text;
     color: #54ED39;
-}
+} */
+
+/* VAR.2 */
 
 .carousel-indicators {
     position: absolute;
