@@ -39,9 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       slideIndex++;
     }
-    console.log(slideIndex);
     current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
-    makeActiveDot(slideIndex);
+    // makeActiveDot(slideIndex);
+    dots.forEach((dot) => (dot.style.opacity = ".5"));
+    dots[slideIndex - 1].style.opacity = "1";
     sliderField.style.transform = `translateX(${offset}px)`;
   });
 
@@ -57,7 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       slideIndex--;
     }
-    makeActiveDot(slideIndex);
+    // makeActiveDot(slideIndex);
+    dots.forEach((dot) => (dot.style.opacity = ".5"));
+    dots[slideIndex - 1].style.opacity = "1";
     current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
 
     sliderField.style.transform = `translateX(${offset}px)`;
@@ -67,35 +70,62 @@ document.addEventListener("DOMContentLoaded", () => {
   const slider = document.querySelector(".offer__slider"),
     dotsWrapper = document.querySelector(".offer__slider-dots");
 
-  const renderDots = (act = 1) => {
-    for (let i = 1; i < slides.length + 1; i++) {
-      const span = document.createElement("span");
-      span.textContent = "•";
-      if (act == i) {
-        span.classList.add("active");
-      } else {
-        span.classList.remove("active");
-      }
-      dotsWrapper.append(span);
-    }
-  };
-  //init
-  renderDots();
+  //VER.2
+  const indicators = document.createElement("ol");
+  indicators.classList.add("carousel-indicators");
+  slider.append(indicators);
 
-  function makeActiveDot(dotIdx) {
-    dots.forEach((dot) => dot.classList.remove("active"));
-    dots[dotIdx - 1].classList.add("active");
+  const dots = [];
+  for (let i = 0; i < slides.length; i++) {
+    const dot = document.createElement("li");
+    dot.setAttribute("data-slide-to", i + 1);
+    dot.classList.add("dot");
+    if (i == 0) {
+      dot.style.opacity = 1;
+    }
+    indicators.append(dot);
+    dots.push(dot);
   }
-  //add eventListeners
-  const dots = document.querySelectorAll(".offer__slider-dots span");
-  dots.forEach((dot, idx) => {
-    dot.addEventListener("click", function () {
-      const clickedSlide = idx + 1;
-      makeActiveDot(clickedSlide);
-      offset += width.slice(0, width.length - 2) * (slideIndex - clickedSlide);
-      slideIndex = clickedSlide;
-      current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
-      sliderField.style.transform = `translateX(${offset}px)`;
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", (e) => {
+      const slideTo = e.target.getAttribute("data-slide-to");
+      slideIndex = slideTo;
+      offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+      sliderField.style.transform = `translateX(-${offset}px)`;
+      dots.forEach((dot) => (dot.style.opacity = ".5"));
+      dots[slideIndex - 1].style.opacity = "1";
     });
   });
+  //VER.1
+  // const renderDots = (act = 1) => {
+  //   for (let i = 1; i < slides.length + 1; i++) {
+  //     const span = document.createElement("span");
+  //     span.textContent = "•";
+  //     if (act == i) {
+  //       span.classList.add("active");
+  //     } else {
+  //       span.classList.remove("active");
+  //     }
+  //     dotsWrapper.append(span);
+  //   }
+  // };
+  //init
+  // renderDots();
+
+  // function makeActiveDot(dotIdx) {
+  //   dots.forEach((dot) => dot.classList.remove("active"));
+  //   dots[dotIdx].classList.add("active");
+  // }
+  // //add eventListeners
+  // const dots = document.querySelectorAll(".offer__slider-dots span");
+  // dots.forEach((dot, idx) => {
+  //   dot.addEventListener("click", function () {
+  //     makeActiveDot(idx);
+  //     offset = +width.slice(0, width.length - 2) * idx;
+  //     slideIndex = idx + 1;
+  //     current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
+  //     sliderField.style.transform = `translateX(-${offset}px)`;
+  //   });
+  // });
 });
