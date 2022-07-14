@@ -26,6 +26,43 @@ document.addEventListener("DOMContentLoaded", () => {
     result.textContent = res.toFixed();
   }
 
+  function checkNum(num, field) {
+    const warnfield = document.querySelector("#warn");
+    if (warnfield) {
+      // document.querySelector("#warn").remove();
+      console.log("111");
+    }
+    const regX = /\D/g;
+    if (regX.test(num)) {
+      const warn = document.createElement("div");
+      let coords = field.getBoundingClientRect();
+      warn.style.cssText = `
+        position: absolute;
+        background-color: coral;
+        color: #fff;
+        padding: 3px;
+        font-size: 12px;        
+        z-index: 55`;
+      warn.textContent = "Please, enter a number!!!";
+      warn.style.width = field.offsetWidth + "px";
+      warn.id = "warn";
+      document.body.prepend(warn);
+      warn.style.left = coords.left + window.pageXOffset + "px";
+      warn.style.top = -25 + coords.top + window.pageYOffset + "px";
+      document.body.append(warn);
+      // setTimeout(() => {
+      //   warn.remove();
+      //   field.value = "";
+      // }, 2000);
+      return;
+    } else {
+
+
+
+      return num;
+    }
+  }
+
   function getStaticInfo(action, parent) {
     document.querySelector(`#${parent}`).addEventListener(action, (e) => {
       const elem = e.target;
@@ -41,15 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
         ratio = +elem.dataset.ratio;
       }
       if (parent === "constitution") {
-        if (elem.id === "height") {
-          height = +elem.value;
-        }
-        if (elem.id === "weight") {
-          weight = +elem.value;
-        }
-        if (elem.id === "age") {
-          age = +elem.value;
-        }
+        // height = +document.querySelector("#height").value;
+        height = checkNum(+document.querySelector("#height").value, elem);
+        weight = checkNum(+document.querySelector("#weight").value, elem);
+        age = checkNum(+document.querySelector("#age").value, elem);
+
       }
       calcTotal();
     });
