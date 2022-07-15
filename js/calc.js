@@ -3,62 +3,73 @@
 document.addEventListener("DOMContentLoaded", () => {
   //variables declaration
   const result = document.querySelector(".calculating__result span"),
-    calcWrapper = document.querySelector(".calculating");
+    constWrapper = document.querySelector("#constitution");
   let sex = "female",
-    height,
-    weight,
-    age,
     ratio = 1.375;
+  const params = {
+    height: 0,
+    weight: 0,
+    age: 0,
+  };
+
   //
   function calcTotal() {
     let res;
-    console.log(sex, height, weight, age, ratio);
-    if (!sex || !height || !weight || !age || !ratio) {
+    console.log(sex, params.height, params.weight, params.age, ratio);
+    if (!sex || !params.height || !params.weight || !params.age || !ratio) {
       result.textContent = "____";
       return;
     }
     if (sex === "female") {
-      res = (447.6 + 9.2 * weight + 3.1 * height - 4.3 * age) * ratio;
+      res =
+        (447.6 + 9.2 * params.weight + 3.1 * params.height - 4.3 * params.age) *
+        ratio;
     } else {
-      res = (88.36 + 13.4 * weight + 4.8 * height - 5.7 * age) * ratio;
+      res =
+        (88.36 +
+          13.4 * params.weight +
+          4.8 * params.height -
+          5.7 * params.age) *
+        ratio;
     }
-    // result.textContent = Math.round(res);
     result.textContent = res.toFixed();
   }
 
-  function checkNum(num, field) {
-    const warnfield = document.querySelector("#warn");
-    if (warnfield) {
-      // document.querySelector("#warn").remove();
-      console.log("111");
-    }
-    const regX = /\D/g;
-    if (regX.test(num)) {
+  function renderWarnWindow(field, warnfield) {
+    if (!warnfield) {
       const warn = document.createElement("div");
       let coords = field.getBoundingClientRect();
       warn.style.cssText = `
-        position: absolute;
-        background-color: coral;
-        color: #fff;
-        padding: 3px;
-        font-size: 12px;        
-        z-index: 55`;
+          position: absolute;
+          background-color: coral;
+          color: #fff;
+          padding: 3px;
+          font-size: 12px;        
+          z-index: 55`;
       warn.textContent = "Please, enter a number!!!";
       warn.style.width = field.offsetWidth + "px";
-      warn.id = "warn";
+      warn.id = "warn_" + field.id;
       document.body.prepend(warn);
       warn.style.left = coords.left + window.pageXOffset + "px";
       warn.style.top = -25 + coords.top + window.pageYOffset + "px";
       document.body.append(warn);
-      // setTimeout(() => {
-      //   warn.remove();
-      //   field.value = "";
-      // }, 2000);
+    }
+    // setTimeout(() => {
+    //   warn.remove();
+    //   field.value = "";
+    // }, 2000);
+  }
+
+  function checkNum(num, field) {
+    const warnfield = document.querySelector(`#warn_${field.id}`);
+    const regX = /\D/g;
+    if (regX.test(num)) {
+      renderWarnWindow(field, warnfield);
       return;
     } else {
-
-
-
+      if (warnfield) {
+        warnfield.remove();
+      }
       return num;
     }
   }
@@ -78,11 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ratio = +elem.dataset.ratio;
       }
       if (parent === "constitution") {
-        // height = +document.querySelector("#height").value;
-        height = checkNum(+document.querySelector("#height").value, elem);
-        weight = checkNum(+document.querySelector("#weight").value, elem);
-        age = checkNum(+document.querySelector("#age").value, elem);
-
+        params[elem.id] = checkNum(
+          +document.querySelector(`#${elem.id}`).value,
+          elem
+        );
       }
       calcTotal();
     });
