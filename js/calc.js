@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //
   function calcTotal() {
     let res;
-    console.log(sex, params.height, params.weight, params.age, ratio);
+    // console.log(sex, params.height, params.weight, params.age, ratio);
     if (!sex || !params.height || !params.weight || !params.age || !ratio) {
       result.textContent = "____";
       return;
@@ -41,17 +41,18 @@ document.addEventListener("DOMContentLoaded", () => {
       let coords = field.getBoundingClientRect();
       warn.style.cssText = `
           position: absolute;
-          background-color: coral;
+          background-color: coral;          
           color: #fff;
           padding: 3px;
-          font-size: 12px;        
+          font-size: 12px; 
+          text-align: center;       
           z-index: 55`;
       warn.textContent = "Please, enter a number!!!";
       warn.style.width = field.offsetWidth + "px";
       warn.id = "warn_" + field.id;
       document.body.prepend(warn);
       warn.style.left = coords.left + window.pageXOffset + "px";
-      warn.style.top = -25 + coords.top + window.pageYOffset + "px";
+      warn.style.top = -field.offsetHeight / 2 + coords.top + window.pageYOffset + "px";
       document.body.append(warn);
     }
     // setTimeout(() => {
