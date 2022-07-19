@@ -1,6 +1,4 @@
-"use strict";
-
-document.addEventListener("DOMContentLoaded", () => {
+function calc() {
   //variables declaration
   const result = document.querySelector(".calculating__result span"),
     constWrapper = document.querySelector("#constitution");
@@ -40,19 +38,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const warn = document.createElement("div");
       let coords = field.getBoundingClientRect();
       warn.style.cssText = `
-          position: absolute;
-          background-color: coral;          
-          color: #fff;
-          padding: 3px;
-          font-size: 12px; 
-          text-align: center;       
-          z-index: 55`;
+        position: absolute;
+        background-color: coral;          
+        color: #fff;
+        padding: 3px;
+        font-size: 12px; 
+        text-align: center;       
+        z-index: 55`;
       warn.textContent = "Please, enter a number!!!";
       warn.style.width = field.offsetWidth + "px";
       warn.id = "warn_" + field.id;
       document.body.prepend(warn);
       warn.style.left = coords.left + window.pageXOffset + "px";
-      warn.style.top = -field.offsetHeight / 2 + coords.top + window.pageYOffset + "px";
+      warn.style.top =
+        -field.offsetHeight / 2 + coords.top + window.pageYOffset + "px";
       document.body.append(warn);
     }
     // setTimeout(() => {
@@ -110,4 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
   getStaticInfo("click", "gender");
   getStaticInfo("input", "constitution");
   getStaticInfo("click", "activity");
-});
+}
+
+export default calc;

@@ -1,61 +1,5 @@
-"use strict";
-// MODAL
-document.addEventListener("DOMContentLoaded", () => {
-  const modalBtns = document.querySelectorAll("[data-modal]"),
-    closeBtn = document.querySelector("[data-close]"),
-    modalWindow = document.querySelector(".modal");
-  //1 var
-
-  const openModal = () => {
-    // modalWindow.classList.toggle("show");
-    modalWindow.classList.add("show");
-    modalWindow.classList.remove("hide");
-    document.body.style.overflow = "hidden";
-    // clearTimeout(modalIntervalId);
-  };
-
-  const closeModal = () => {
-    // modalWindow.classList.toggle("show");
-    modalWindow.classList.add("hide");
-    modalWindow.classList.remove("show");
-    document.body.style.overflow = "";
-  };
-
-  modalBtns.forEach((item) => {
-    item.addEventListener("click", openModal);
-  });
-
-  closeBtn.addEventListener("click", closeModal);
-
-  modalWindow.addEventListener("click", (e) => {
-    if (e.target === modalWindow || e.target.getAttribute("data-close") == "") {
-      closeModal();
-    }
-  });
-
-  //close modal by pressing "Escape"
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Escape" && modalWindow.classList.contains("show")) {
-      closeModal();
-    }
-  });
-
-  //show modal after 3s
-  // const modalIntervalId = setTimeout(openModal, 3000);
-
-  //show modal at the end of page
-  const modalScrollOpen = () => {
-    if (
-      window.pageYOffset + document.documentElement.clientHeight >=
-      document.documentElement.scrollHeight
-    ) {
-      openModal();
-      window.removeEventListener("scroll", modalScrollOpen);
-    }
-  };
-
-  window.addEventListener("scroll", modalScrollOpen);
-
+import { closeModal, openModal } from "./modal";
+function forms() {
   //POST FormData & JSON
 
   const forms = document.querySelectorAll("form");
@@ -86,9 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
       let statusMessage = document.createElement("img");
       statusMessage.src = mess.loading;
       statusMessage.style.cssText = `
-                display: block;
-                margin: 0 auto;
-            `;
+            display: block;
+            margin: 0 auto;
+        `;
 
       form.insertAdjacentElement("afterend", statusMessage);
 
@@ -128,11 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const thanksModal = document.createElement("div");
     thanksModal.classList.add("modal__dialog");
     thanksModal.innerHTML = `
-            <div class="modal__content">
-                <div class="modal__close" data-close>×</div>
-                <div class="modal__title">${message}</div>
-            </div>
-        `;
+        <div class="modal__content">
+            <div class="modal__close" data-close>×</div>
+            <div class="modal__title">${message}</div>
+        </div>
+    `;
     document.querySelector(".modal").append(thanksModal);
     setTimeout(() => {
       thanksModal.remove();
@@ -141,4 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
       closeModal();
     }, 4000);
   }
-});
+}
+
+export default forms;

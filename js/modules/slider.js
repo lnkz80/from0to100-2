@@ -1,6 +1,4 @@
-"use strict";
-
-document.addEventListener("DOMContentLoaded", () => {
+function slider() {
   let slideIndex = 1,
     offset = 0;
   const current = document.querySelector("#current"),
@@ -132,4 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
   //     sliderField.style.transform = `translateX(-${offset}px)`;
   //   });
   // });
-});
+}
+
+export default slider;
