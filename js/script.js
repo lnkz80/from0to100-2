@@ -1,6 +1,7 @@
 "use strict";
 import tabs from "./modules/tabs";
 import modal from "./modules/modal";
+import { openModal } from "./modules/modal";
 import timer from "./modules/timer";
 import cards from "./modules/cards";
 import calc from "./modules/calc";
@@ -18,6 +19,12 @@ document.addEventListener("DOMContentLoaded", () => {
   //   forms = require("./modules/forms"),
   //   slider = require("./modules/slider"),
   //   test = require("./modules/test");
+
+  //show modal after 3s
+  const modalIntervalId = setTimeout(
+    () => openModal(".modal", modalIntervalId),
+    3000
+  );
 
   tabs();
   modal("[data-modal]", ".modal");

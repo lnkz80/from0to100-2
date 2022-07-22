@@ -1,10 +1,12 @@
-const openModal = (modalSelector) => {
+const openModal = (modalSelector, modalIntervalId) => {
   // modalWindow.classList.toggle("show");
   const modalWindow = document.querySelector(modalSelector);
   modalWindow.classList.add("show");
   modalWindow.classList.remove("hide");
   document.body.style.overflow = "hidden";
-  clearTimeout(modalIntervalId);
+  if (modalIntervalId) {
+    clearInterval(modalIntervalId);
+  }
 };
 
 const closeModal = (modalSelector) => {
@@ -15,7 +17,7 @@ const closeModal = (modalSelector) => {
   document.body.style.overflow = "";
 };
 
-function modal(triggerSelector, modalSelector) {
+function modal(triggerSelector, modalSelector, modalIntervalId) {
   // MODAL
 
   const modalBtns = document.querySelectorAll(triggerSelector),
@@ -41,9 +43,6 @@ function modal(triggerSelector, modalSelector) {
       closeModal(modalSelector);
     }
   });
-
-  //show modal after 3s
-  const modalIntervalId = setTimeout(openModal, 3000);
 
   //show modal at the end of page
   const modalScrollOpen = () => {
