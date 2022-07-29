@@ -1,6 +1,5 @@
 function openModal(modalSelector, modalIntervalId) {
   // modalWindow.classList.toggle("show");
-
   const modalWindow = document.querySelector(modalSelector);
   modalWindow.classList.add("show");
   modalWindow.classList.remove("hide");
@@ -18,19 +17,26 @@ const closeModal = (modalSelector) => {
   document.body.style.overflow = "";
 };
 
-function modal(triggerSelector, modalSelector) {
+function modal(triggerSelector, modalSelector, modalIntervalId) {
   // MODAL
 
   const modalBtns = document.querySelectorAll(triggerSelector),
-    closeBtn = document.querySelector("[data-close]"),
     modalWindow = document.querySelector(modalSelector);
   //1 var
 
   modalBtns.forEach((item) => {
-    item.addEventListener("click", () => openModal(modalSelector));
+    item.addEventListener("click", () =>
+      openModal(modalSelector, modalIntervalId)
+    );
   });
 
-  closeBtn.addEventListener("click", () => closeModal(modalSelector));
+  modalWindow.addEventListener("click", (e) => {
+    if (e.target === modal || e.target.getAttribute("data-close") == "") {
+      closeModal(modalSelector);
+    }
+  });
+
+  // closeBtn.addEventListener("click", () => closeModal(modalSelector));
 
   modalWindow.addEventListener("click", (e) => {
     if (e.target === modalWindow || e.target.getAttribute("data-close") == "") {
@@ -51,7 +57,7 @@ function modal(triggerSelector, modalSelector) {
       window.pageYOffset + document.documentElement.clientHeight >=
       document.documentElement.scrollHeight
     ) {
-      openModal(modalSelector);
+      openModal(modalSelector, modalIntervalId);
       window.removeEventListener("scroll", modalScrollOpen);
     }
   };

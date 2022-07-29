@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   tabs();
-  modal("[data-modal]", ".modal");
+  modal("[data-modal]", ".modal", modalIntervalId);
   timer();
   cards();
   calc();

@@ -82,7 +82,7 @@ function forms(modalSelector, modalIntervalId) {
       thanksModal.remove();
       modalContent.classList.add("show");
       modalContent.classList.remove("hide");
-      closeModal(modalSelector, modalIntervalId);
+      closeModal(modalSelector);
     }, 4000);
   }
 }
