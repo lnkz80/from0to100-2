@@ -1,5 +1,6 @@
-const openModal = (modalSelector, modalIntervalId) => {
+function openModal(modalSelector, modalIntervalId) {
   // modalWindow.classList.toggle("show");
+
   const modalWindow = document.querySelector(modalSelector);
   modalWindow.classList.add("show");
   modalWindow.classList.remove("hide");
@@ -7,7 +8,7 @@ const openModal = (modalSelector, modalIntervalId) => {
   if (modalIntervalId) {
     clearInterval(modalIntervalId);
   }
-};
+}
 
 const closeModal = (modalSelector) => {
   // modalWindow.classList.toggle("show");
@@ -17,7 +18,7 @@ const closeModal = (modalSelector) => {
   document.body.style.overflow = "";
 };
 
-function modal(triggerSelector, modalSelector, modalIntervalId) {
+function modal(triggerSelector, modalSelector) {
   // MODAL
 
   const modalBtns = document.querySelectorAll(triggerSelector),

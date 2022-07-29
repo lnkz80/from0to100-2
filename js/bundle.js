@@ -248,7 +248,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./js/modules/modal.js");
 
-function forms() {
+function forms(modalSelector, modalIntervalId) {
   //POST FormData & JSON
 
   const forms = document.querySelectorAll("form");
@@ -316,7 +316,7 @@ function forms() {
   function showMessage(message) {
     const modalContent = document.querySelector(".modal__dialog");
     modalContent.classList.add("hide");
-    (0,_modal__WEBPACK_IMPORTED_MODULE_0__.openModal)();
+    (0,_modal__WEBPACK_IMPORTED_MODULE_0__.openModal)(modalSelector, modalIntervalId);
 
     const thanksModal = document.createElement("div");
     thanksModal.classList.add("modal__dialog");
@@ -331,7 +331,7 @@ function forms() {
       thanksModal.remove();
       modalContent.classList.add("show");
       modalContent.classList.remove("hide");
-      (0,_modal__WEBPACK_IMPORTED_MODULE_0__.closeModal)();
+      (0,_modal__WEBPACK_IMPORTED_MODULE_0__.closeModal)(modalSelector, modalIntervalId);
     }, 4000);
   }
 }
@@ -353,14 +353,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "openModal": () => (/* binding */ openModal)
 /* harmony export */ });
-const openModal = (modalSelector) => {
+function openModal(modalSelector, modalIntervalId) {
   // modalWindow.classList.toggle("show");
+
   const modalWindow = document.querySelector(modalSelector);
   modalWindow.classList.add("show");
   modalWindow.classList.remove("hide");
   document.body.style.overflow = "hidden";
-  clearTimeout(modalIntervalId);
-};
+  if (modalIntervalId) {
+    clearInterval(modalIntervalId);
+  }
+}
 
 const closeModal = (modalSelector) => {
   // modalWindow.classList.toggle("show");
@@ -396,9 +399,6 @@ function modal(triggerSelector, modalSelector) {
       closeModal(modalSelector);
     }
   });
-
-  //show modal after 3s
-  const modalIntervalId = setTimeout(openModal, 3000);
 
   //show modal at the end of page
   const modalScrollOpen = () => {
@@ -828,6 +828,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 document.addEventListener("DOMContentLoaded", () => {
   // ==== CommonJS import
   // const tabs = require("./modules/tabs"),
@@ -839,12 +840,18 @@ document.addEventListener("DOMContentLoaded", () => {
   //   slider = require("./modules/slider"),
   //   test = require("./modules/test");
 
+  //show modal after 3s
+  const modalIntervalId = setTimeout(
+    () => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)(".modal", modalIntervalId),
+    3000
+  );
+
   (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])();
   (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])("[data-modal]", ".modal");
   (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])();
   (0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
   (0,_modules_calc__WEBPACK_IMPORTED_MODULE_4__["default"])();
-  (0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])();
+  (0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])(".modal", modalIntervalId);
   (0,_modules_slider__WEBPACK_IMPORTED_MODULE_6__["default"])();
   // test();
 });

@@ -1,5 +1,5 @@
 import { closeModal, openModal } from "./modal";
-function forms() {
+function forms(modalSelector, modalIntervalId) {
   //POST FormData & JSON
 
   const forms = document.querySelectorAll("form");
@@ -67,7 +67,7 @@ function forms() {
   function showMessage(message) {
     const modalContent = document.querySelector(".modal__dialog");
     modalContent.classList.add("hide");
-    openModal();
+    openModal(modalSelector, modalIntervalId);
 
     const thanksModal = document.createElement("div");
     thanksModal.classList.add("modal__dialog");
@@ -82,7 +82,7 @@ function forms() {
       thanksModal.remove();
       modalContent.classList.add("show");
       modalContent.classList.remove("hide");
-      closeModal();
+      closeModal(modalSelector, modalIntervalId);
     }, 4000);
   }
 }

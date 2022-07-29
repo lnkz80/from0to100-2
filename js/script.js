@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   timer();
   cards();
   calc();
-  forms();
+  forms(".modal", modalIntervalId);
   slider();
   // test();
 });
