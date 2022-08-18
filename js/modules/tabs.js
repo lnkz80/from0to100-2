@@ -1,9 +1,14 @@
-function tabs() {
+function tabs(
+  tabsSelector,
+  tabsContentSelector,
+  tabsParentSelector,
+  activeClass
+) {
   //TABS
 
-  const tabsParent = document.querySelector(".tabheader__items"),
-    tabs = tabsParent.querySelectorAll(".tabheader__item"),
-    tabsContent = document.querySelectorAll(".tabcontent");
+  const tabs = document.querySelectorAll(tabsSelector),
+    tabsContent = document.querySelectorAll(tabsContentSelector),
+    tabsParent = document.querySelector(tabsParentSelector);
 
   const hideTabContent = () => {
     tabsContent.forEach((item) => {
@@ -12,14 +17,14 @@ function tabs() {
     });
 
     tabs.forEach((item) => {
-      item.classList.remove("tabheader__item_active");
+      item.classList.remove(activeClass);
     });
   };
 
   const showTabContent = (elem = 0) => {
     tabsContent[elem].classList.add("show", "fade");
     tabsContent[elem].classList.remove("hide");
-    tabs[elem].classList.add("tabheader__item_active");
+    tabs[elem].classList.add(activeClass);
   };
 
   hideTabContent();
@@ -27,7 +32,7 @@ function tabs() {
 
   tabsParent.addEventListener("click", (e) => {
     const tab = e.target;
-    if (tab && tab.classList.contains("tabheader__item")) {
+    if (tab && tab.classList.contains(tabsSelector.slice(1))) {
       tabs.forEach((item, num) => {
         if (item == tab) {
           hideTabContent();

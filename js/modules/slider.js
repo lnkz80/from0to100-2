@@ -1,14 +1,23 @@
-function slider() {
+function slider({
+  container,
+  slide,
+  nextArrow,
+  previousArrow,
+  totalCounter,
+  currentCounter,
+  wrapper,
+  field,
+}) {
   let slideIndex = 1,
     offset = 0;
-  const current = document.querySelector("#current"),
-    total = document.querySelector("#total"),
-    prev = document.querySelector(".offer__slider-prev"),
-    next = document.querySelector(".offer__slider-next"),
-    slides = document.querySelectorAll(".offer__slide"),
-    sliderWrapper = document.querySelector(".offer__slider-wrapper"),
+  const current = document.querySelector(currentCounter),
+    total = document.querySelector(totalCounter),
+    prev = document.querySelector(previousArrow),
+    next = document.querySelector(nextArrow),
+    slides = document.querySelectorAll(slide),
+    sliderWrapper = document.querySelector(wrapper),
     width = window.getComputedStyle(sliderWrapper).width,
-    sliderField = document.querySelector(".offer__slider-inner");
+    sliderField = document.querySelector(field);
 
   total.textContent = slides.length < 10 ? `0${slides.length}` : slides.length;
   current.textContent = slideIndex < 10 ? `0${slideIndex}` : slideIndex;
@@ -66,7 +75,7 @@ function slider() {
   });
 
   //SLIDER DOTS
-  const slider = document.querySelector(".offer__slider");
+  const slider = document.querySelector(container);
 
   //VER.1
   // dotsWrapper = document.querySelector(".offer__slider-dots");

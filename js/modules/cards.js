@@ -1,3 +1,5 @@
+import { getResource } from "../services/services";
+
 function cards() {
   //CARDS "MENU"
 
@@ -25,15 +27,6 @@ function cards() {
   //       alt: "post",
   //     },
   //   ];
-
-  const getResource = async (url) => {
-    const res = await fetch(url);
-    //check for errors in fetch
-    if (!res.ok) {
-      throw new Error(`Couldn't fetch ${url}, status: ${res.status}`);
-    }
-    return await res.json();
-  };
 
   class Card {
     constructor(img, alt, header, text, price, parentDiv, ...classes) {

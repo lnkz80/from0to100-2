@@ -1,8 +1,5 @@
-function timer() {
+function timer(id, deadLine) {
   //TIMER
-
-  const deadLine = "2022-09-22";
-
   const parseDate = (endDate) => {
     const t = Date.parse(endDate) - Date.parse(new Date()),
       days = Math.floor(t / (1000 * 60 * 60 * 24)),
@@ -50,7 +47,7 @@ function timer() {
     }
   };
 
-  setDeadlineToHTML(".timer", deadLine);
+  setDeadlineToHTML(id, deadLine);
 }
 
 export default timer;
